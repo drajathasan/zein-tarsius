@@ -1,0 +1,6 @@
+#!/usr/bin/php
+<?php
+require __DIR__ . '/../vendor/autoload.php';
+
+$Tarsius = new Zein\Tarsius\Console;
+$Tarsius->run();

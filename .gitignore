@@ -1,0 +1,7 @@
+vendor/
+composer.lock
+app/*.php
+dist/*.php
+!app/.gitkeep
+!dist/.gitkeep
+!tests/tarsius
