@@ -1,0 +1,15 @@
+<?php
+/**
+ * Plugin Name: {plugin_name}
+ * Plugin URI: {plugin_uri}
+ * Description: {description}
+ * Version: {version}
+ * Author: {author}
+ * Author URI: {author_uri}
+ */
+
+// get plugin instance
+$plugin = \SLiMS\Plugins::getInstance();
+
+// registering menus or hook
+{type}
