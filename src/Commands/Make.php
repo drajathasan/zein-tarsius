@@ -3,7 +3,7 @@
  * @author Drajat Hasan
  * @email drajathasan20@gmail.com
  * @create date 2022-04-04 21:49:25
- * @modify date 2022-04-05 14:04:27
+ * @modify date 2022-04-05 21:08:14
  * @license GPLv3
  * @desc [description]
  */
@@ -11,11 +11,17 @@
 namespace Zein\Tarsius\Commands;
 use Zein\Console\Command\Contract;
 use Zein\Console\Output\Interactive;
+use Zein\Tarsius\Utils;
 
 class Make extends Contract
 {
-    use Interactive;
+    use Interactive,Utils;
 
+    /**
+     * Default signature
+     *
+     * @var array
+     */
     protected array $signatures = [
         'make:plugin' => [
             'description' => 'Make a custom slims plugin', 
@@ -24,6 +30,11 @@ class Make extends Contract
         ]
     ];
     
+    /**
+     * Command options
+     *
+     * @var array
+     */
     protected array $commandOptions = [
         '--interactive' => 'Make an interactive question',
         '--type' => 'Set plugin type',
@@ -38,6 +49,11 @@ class Make extends Contract
         '--label' => 'Plugin label in inputed module name'
     ];
 
+    /**
+     * Handle command process
+     *
+     * @return void
+     */
     public function handle()
     {
         // Check if interactive mode is on or not
@@ -48,28 +64,51 @@ class Make extends Contract
         if ($currentSignature && isset($this->signatures[$currentSignature]))
         {
             $modules = new $this->signatures[$currentSignature]['module'];
-            $modules->create($this->argument('pluginname'), $this);
+            $modules->create($this->argument('pluginname')??$this->option('plugin_name'), $this);
         }
     }
 
+    /**
+     * Provide command options based on 
+     * interactive mode
+     *
+     * @return void
+     */
     private function interactiveOptions()
     {
+        // Question based on command option
         $this->setQuestion($this->commandOptions);
-        $this->getAnswer(function($Make){
-            
-            if ($Make->option('type') !== 'hook') 
-            {
-                unset($Make->interactiveOptions['--hook_target']);
-            }
-            else
-            {
-                unset($Make->interactiveOptions['--module_target']);
-            }
 
+        // manage question answer and set up to option
+        $this->getAnswer(function($Make){
+            $bypass = [];
             foreach ($Make->interactiveOptions as $option => $question) {
+
+                if (in_array($option,$bypass)) 
+                {
+                    unset($Make->interactiveOptions[$option]);
+                    continue;
+                }
+
                 echo "\e[1m$question?\033[0m [tuliskan] ";
-                
                 $inputedValue = trim(fgets(STDIN));
+                
+                if ($option == '--type')
+                {
+                    $Make->options[] = $option . '=' . $inputedValue;
+                    
+                    if ($inputedValue == 'hook')
+                    {
+                        $bypass = ['--module_target', '--label'];
+                    }
+                    else
+                    {
+                        $bypass = ['--hook_target'];
+                    }
+                    
+                    continue;
+                }
+
                 $Make->options[] = $option . '=' . $inputedValue;
             } 
         });

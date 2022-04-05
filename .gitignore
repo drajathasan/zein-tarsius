@@ -2,6 +2,7 @@ vendor/
 composer.lock
 app/*.php
 dist/*.php
+test/plugins/*
 !app/.gitkeep
 !dist/.gitkeep
-!tests/tarsius
+!test/tarsius

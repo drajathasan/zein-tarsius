@@ -3,12 +3,12 @@
  * @author Drajat Hasan
  * @email drajathasan20@gmail.com
  * @create date 2022-04-04 21:53:24
- * @modify date 2022-04-04 22:06:26
+ * @modify date 2022-04-05 17:43:08
  * @license GPLv3
  * @desc [description]
  */
 
-namespace Zein\Tarsius\Template;
+namespace Zein\Tarsius\Templates;
 
 use Zein\Console\Output\Template\Help as ZeinHelp;
 

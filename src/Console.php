@@ -3,7 +3,7 @@
  * @author Drajat Hasan
  * @email drajathasan20@gmail.com
  * @create date 2022-04-04 21:43:40
- * @modify date 2022-04-04 22:07:21
+ * @modify date 2022-04-05 17:42:52
  * @license GPLv3
  * @desc [description]
  */
@@ -31,7 +31,7 @@ class Console extends ZeinConsole
 
         if (!$this->argument->get())
         {
-            Output::help($this->commandClass, '\Zein\Tarsius\Template\Help');
+            Output::help($this->commandClass, '\Zein\Tarsius\Templates\Help');
         }
 
         $Parameter = $this->argument->getParameter();
