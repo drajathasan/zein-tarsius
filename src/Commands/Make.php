@@ -3,14 +3,14 @@
  * @author Drajat Hasan
  * @email drajathasan20@gmail.com
  * @create date 2022-04-04 21:49:25
- * @modify date 2022-04-05 21:08:14
+ * @modify date 2022-04-06 09:21:42
  * @license GPLv3
  * @desc [description]
  */
 
 namespace Zein\Tarsius\Commands;
 use Zein\Console\Command\Contract;
-use Zein\Console\Output\Interactive;
+use Zein\Console\Output\{Interactive,Output};
 use Zein\Tarsius\Utils;
 
 class Make extends Contract
@@ -60,11 +60,22 @@ class Make extends Contract
         if (!is_null($this->option('interactive'))) $this->interactiveOptions();
 
         $currentSignature = $this->arguments[0]??false;
+
+        if (!$currentSignature || !isset($this->signatures[$currentSignature]))
+        {
+            Output::danger("Signature $currentSignature not available");
+        }
+
+        $pluginName = $this->argument('pluginname')??$this->option('plugin_name');
         
-        if ($currentSignature && isset($this->signatures[$currentSignature]))
+        if (!is_null($pluginName))
         {
             $modules = new $this->signatures[$currentSignature]['module'];
-            $modules->create($this->argument('pluginname')??$this->option('plugin_name'), $this);
+            $modules->create($pluginName, $this);
+        }
+        else
+        {
+            Output::help(['signature' => $this->signatures, 'option' => $this->commandOptions], \Zein\Tarsius\Templates\Make::class);
         }
     }
 

@@ -3,7 +3,7 @@
  * @author Drajat Hasan
  * @email drajathasan20@gmail.com
  * @create date 2022-04-05 11:04:18
- * @modify date 2022-04-05 21:11:11
+ * @modify date 2022-04-06 08:32:29
  * @license GPLv3
  * @desc [description]
  */
@@ -75,35 +75,51 @@ class Plugin implements Contract
      */
     public function create(string $pluginName, object $command)
     {
+        // Plugin directory is set with no white space and uppercase word
+        $pluginNameSnakeCase = $this->lowerSnakeCase($pluginName);
+
+        // Define plugin type
+        $pluginType = $command->option('type');
+
         // Create plugin directory
-        $this->directory->createInPlugins(basename($this->lowerSnakeCase($pluginName)));
-        $pluginDirPath = $this->pluginDirectoryPath . '/' . $this->lowerSnakeCase($pluginName) . '/';
+        $this->directory->createInPlugins(basename($pluginNameSnakeCase));
+        $pluginDirPath = $this->pluginDirectoryPath . '/' . $pluginNameSnakeCase . '/';
 
         if (empty($this->directory->getError()))
         {
-            $dotTemplate = $this->loadTemplate('dot-plugin');
-            $indexTemplate = $this->loadTemplate('index-' . $command->option('type') . '-plugin');
+            // Load default template plugin file
+            $dotTemplate = $this->loadTemplate('dot-plugin'); // dot-plugin for <plugin_name>.plgin.php
+            $indexTemplate = $this->loadTemplate('index-' . $pluginType . '-plugin'); // default file for fresh plugin
             
             // Create .plugin.php
             foreach ($this->defaultAttribute as $attribute) {
+                /* 
+                 * An exception for attribute type 
+                 * This module will processing what register menu will use
+                 */
                 if ($attribute === 'type')
                 {
                     $dotTemplate = str_replace('{type}', $this->type($command), $dotTemplate);
                     continue;
                 }
                 
+                // Parsing inputed option value to dot-template
                 $dotTemplate = str_replace('{'.$attribute.'}', $command->option($attribute), $dotTemplate);
                 
-                if ($command->option('type') !== 'hook')
+                /* 
+                 * For non hook plugin this module will creating 
+                 * index.php based on index-<datalist|report|print>.template
+                 */
+                if ($pluginType !== 'hook')
                 {
                     $indexTemplate = str_replace('{'.$attribute.'}', $command->option($attribute), $indexTemplate);
                 }
             }
 
             // Finish
-            $this->writeFile($pluginDirPath . $this->lowerSnakeCase($pluginName) . '.plugin.php', $dotTemplate);
+            $this->writeFile($pluginDirPath . $pluginNameSnakeCase . '.plugin.php', $dotTemplate);
 
-            if ($command->option('type') !== 'hook')
+            if ($pluginType !== 'hook')
             {
                 $this->writeFile($pluginDirPath . 'index.php', str_replace('{date_created}', date('Y-m-d H:i:s'), $indexTemplate));
             }
