@@ -3,7 +3,7 @@
     "description": "Next generation tool for development SLiMS",
     "type": "tool",
     "require": {
-        "zein/console": "dev-main",
+        "zein/console": "^1.0",
         "zein/storage": "^1.0"
     },
     "license": "GPL-3.0",
