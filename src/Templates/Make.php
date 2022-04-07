@@ -3,7 +3,7 @@
  * @author Drajat Hasan
  * @email drajathasan20@gmail.com
  * @create date 2022-04-04 21:53:24
- * @modify date 2022-04-06 09:12:53
+ * @modify date 2022-04-07 08:17:56
  * @license GPLv3
  * @desc [description]
  */
@@ -32,7 +32,7 @@ class Make extends ZeinHelp
         }
 
         echo 'Usage:' . $Help->setNewLine(2);
-        echo $Help->withSpace('php tarsius make:<signature> <arguments?> <option>', 'left', 1) . $Help->setNewLine(2);
+        echo $Help->withSpace('php tarsius make:<signature> <arguments?> <option=value>', 'left', 1) . $Help->setNewLine(2);
 
         // Option
         echo 'Signature:' . $Help->setNewLine(2);

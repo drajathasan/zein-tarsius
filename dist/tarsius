@@ -1,0 +1,8 @@
+#!/usr/bin/php
+<?php
+
+const INDEX_AUTH = "1";
+require __DIR__ . '/sysconfig.inc.php';
+
+$Tarsius = new Zein\Tarsius\Console;
+$Tarsius->run();
