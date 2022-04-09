@@ -3,7 +3,7 @@
  * @author Drajat Hasan
  * @email drajathasan20@gmail.com
  * @create date 2022-04-05 11:04:18
- * @modify date 2022-04-06 08:32:29
+ * @modify date 2022-04-09 09:36:44
  * @license GPLv3
  * @desc [description]
  */
@@ -136,6 +136,7 @@ class Plugin implements Contract
             case 'datalist':
             case 'report':
             case 'print':
+            case 'page':
                 $register = '$plugin->registerMenu("' . $command->option('module_target') . '", "' . $command->option('label') . '", __DIR__ . "/index.php");';
                 break;
             
