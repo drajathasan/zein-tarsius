@@ -4,7 +4,7 @@
     "type": "tool",
     "require": {
         "zein/console": "^1.0",
-        "zein/storage": "^1.0"
+        "zein/storage": "^2.0"
     },
     "license": "GPL-3.0",
     "autoload": {
